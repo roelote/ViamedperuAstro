@@ -2,6 +2,7 @@
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import '../styles/global.css';
+import 'aos/dist/aos.css';
 ---
 <!doctype html>
 <html lang="en">
@@ -16,5 +17,46 @@ import '../styles/global.css';
 		<Header />
 		<slot />
 		<Footer />
+		<script>
+			import AOS from 'aos';
+			
+			// Initialize AOS
+			AOS.init({
+				duration: 800,
+				easing: 'ease-in-out',
+				once: true
+			});
+
+			// Smooth scrolling for navigation links
+			document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+				anchor.addEventListener('click', (e) => {
+					e.preventDefault();
+					const href = anchor.getAttribute('href');
+					if (href) {
+						const target = document.querySelector(href);
+						if (target) {
+							target.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+							// Close mobile menu if open
+							const mobileMenu = document.getElementById('mobile-menu');
+							if (mobileMenu) {
+								mobileMenu.classList.add('hidden');
+							}
+						}
+					}
+				});
+			});
+
+			// Add parallax effect to hero section
+			window.addEventListener('scroll', () => {
+				const scrolled = window.pageYOffset;
+				const heroVideo = document.querySelector('#inicio video') as HTMLVideoElement;
+				if (heroVideo) {
+					heroVideo.style.transform = `translateY(${scrolled * 0.5}px)`;
+				}
+			});
+		</script>
 	</body>
 </html>
