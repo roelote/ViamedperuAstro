@@ -3,7 +3,24 @@
 @theme {
   --color-viamed-cyan: #0096a3;
   --color-viamed-red: #ec1c24;
+  
 }
+
+/* Override de todos los containers a 1400px y centrados */
+@layer utilities {
+
+  .container {
+    max-width: 1400px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+}
+
+.imgpage
+{
+    background-image: url('../../public/hader-pages-viamed.jpg');
+}
+
 
  .hero-video {
             position: relative;

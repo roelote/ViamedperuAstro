@@ -1,0 +1,148 @@
+---
+// src/pages/[slug].astro
+export async function getStaticPaths() {
+    let pages = [];
+    
+    try {
+        const response = await fetch('http://web.viamed/wp-json/wp/v2/pages?_embed');
+        if (response.ok) {
+            pages = await response.json();
+        }
+    } catch (error) {
+        console.error('Error al cargar las páginas:', error);
+    }
+
+    return pages.map((page: any) => ({
+        params: { slug: page.slug },
+        props: { page },
+    }));
+}
+
+interface Props {
+    page: {
+        title: { rendered: string };
+        content: { rendered: string };
+        slug: string;
+        yoast_head?: string;
+        yoast_head_json?: {
+            title?: string;
+            description?: string;
+            og_title?: string;
+            og_description?: string;
+            og_image?: { url: string }[];
+            twitter_card?: string;
+            canonical?: string;
+        };
+    };
+}
+
+const { page } = Astro.props;
+
+import Layout from '../layouts/Layout.astro';
+
+// Obtener metadatos de Yoast SEO
+const seoTitle = page.yoast_head_json?.title || page.title.rendered;
+const seoDescription = page.yoast_head_json?.description || '';
+const ogImage = page.yoast_head_json?.og_image?.[0]?.url || '';
+const canonical = page.yoast_head_json?.canonical || '';
+---
+
+<Layout 
+    title={seoTitle}
+    description={seoDescription}
+    ogImage={ogImage}
+    canonical={canonical}
+>
+    <div class="">
+           
+            <div class="relative h-64 md:h-80 mb-4 overflow-hidden" data-aos="fade-up">
+                
+                <img 
+                    src="/hader-pages-viamed.jpg" 
+                    alt={page.title.rendered}
+                    class="absolute inset-0 w-full h-full object-cover"
+                />
+               
+                <div class="absolute inset-0 bg-viamed-cyan/40"></div>
+             
+                <div class="relative z-10 flex items-center justify-center h-full">
+                    <h1 class="text-4xl md:text-5xl font-bold text-white px-4 text-center">
+                        {page.title.rendered}
+                    </h1>
+                </div>
+            </div>
+
+            <div 
+                class="bg-white rounded-xl border border-gray-100 shadow-lg p-8 md:p-12 prose prose-lg container mb-16" 
+                data-aos="fade-up" 
+                data-aos-delay="200"
+                set:html={page.content.rendered}
+            />
+    </div>
+</Layout>
+
+<style>
+    /* Estilos para el contenido de WordPress */
+    :global(.prose) {
+        color: #374151;
+    }
+    
+    :global(.prose h1),
+    :global(.prose h2),
+    :global(.prose h3),
+    :global(.prose h4) {
+        color: #1f2937;
+        font-weight: 700;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    :global(.prose h2) {
+        font-size: 2rem;
+        border-bottom: 2px solid #00bcd4;
+        padding-bottom: 0.5rem;
+    }
+    :global(.prose h3) {
+        font-size: 1rem;
+        padding-bottom: 0.5rem;
+    }
+
+    :global(.prose p) {
+        margin-bottom: 1.5rem;
+        line-height: 1.8;
+    }
+
+    :global(.prose a) {
+        color: #00bcd4;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    :global(.prose a:hover) {
+        color: #e91e63;
+    }
+
+    :global(.prose img) {
+        border-radius: 0.5rem;
+        margin: 2rem auto;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    :global(.prose ul),
+    :global(.prose ol) {
+        margin-left: 2rem;
+        margin-bottom: 1.5rem;
+    }
+
+    :global(.prose li) {
+        margin-bottom: 0.5rem;
+    }
+
+    :global(.prose blockquote) {
+        border-left: 4px solid #00bcd4;
+        padding-left: 1.5rem;
+        font-style: italic;
+        color: #6b7280;
+        margin: 2rem 0;
+    }
+</style>

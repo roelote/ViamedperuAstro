@@ -1,12 +1,12 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
+<Layout 
+    title="Viamedperu - Transporte Turístico en Cusco y todo el Perú"
+    description="Empresa líder en transporte turístico con años de experiencia brindando servicios de calidad, seguridad y confort en todo el Perú. Servicio ejecutivo, corporativo y turístico."
+    ogImage="/logo-viamedperu.svg"
+>
 	<section id="inicio" class="relative h-screen hero-video flex items-center justify-center">
         <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover z-0">
             <source src="/video-home.mp4" type="video/mp4">
@@ -15,7 +15,9 @@ import Layout from '../layouts/Layout.astro';
             <h1 class="text-5xl md:text-7xl font-bold mb-6" data-aos="fade-up">
                 VIAMEDPERU
             </h1>
-           
+            <p class="text-xl md:text-2xl mb-8 max-w-3xl mx-auto" data-aos="fade-up" data-aos-delay="200">
+                Años de experiencia brindando servicios de transporte turístico de calidad en todo el Perú
+            </p>
             <div class="space-y-4 md:space-y-0 md:space-x-4 md:flex md:justify-center" data-aos="fade-up" data-aos-delay="400">
                 <a href="#servicios" class="inline-block btn-primary text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300">
                     Nuestros Servicios

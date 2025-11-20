@@ -1,12 +1,46 @@
 ---
+// src/components/Header.astro
+interface MenuItem {
+    ID: number;
+    title: string;
+    url: string;
+    menu_order: number;
+    slug?: string;
+}
 
+let menuItems: MenuItem[] = [];
+
+try {
+    const response = await fetch('http://web.viamed/wp-json/vap/v1/menu/menu-1');
+    if (response.ok) {
+        const rawItems = await response.json();
+        // Convertir URLs de WordPress a rutas de Astro
+        menuItems = rawItems.map((item: MenuItem) => {
+            // Extraer el slug de la URL de WordPress
+            const urlObj = new URL(item.url);
+            const pathname = urlObj.pathname;
+            const slug = pathname.split('/').filter(Boolean).pop() || '';
+            
+            // Si es la home, usar "/"
+            const astroUrl = slug === '' || item.url.includes('web.viamed') && pathname === '/' 
+                ? '/' 
+                : `/${slug}`;
+            
+            return {
+                ...item,
+                url: astroUrl,
+                slug: slug
+            };
+        });
+    }
+} catch (error) {
+    console.error('Error al cargar el menú:', error);
+}
 ---
-
-
 
     <!-- Top Header -->
     <div id="top-header" class="bg-viamed-cyan text-white py-3 text-sm">
-        <div class="max-w-7xl mx-auto px-4">
+        <div class="container px-4">
             <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0">
                 <div class="flex flex-col md:flex-row items-center space-y-1 md:space-y-0 md:space-x-6">
                     <div class="flex items-center">
@@ -39,25 +73,32 @@
         </div>
     </div>
 
-   
     <nav id="navbar" class="bg-white shadow-xl sticky top-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4">
+        <div class="container px-4">
             <div class="flex justify-between items-center py-4">
                 <div class="flex items-center logo-hover">
-                    <img src="/logo-viamedperu.svg" alt="Logo Viamed Peru" class="h-12 w-auto mr-3">
+                    <a href="/">
+                        <img src="/logo-viamedperu.svg" alt="Logo Viamed Peru" class="h-12 w-auto mr-3">
+                    </a>
                 </div>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#inicio" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Inicio</a>
-                    <a href="#nosotros" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Viamed Peru</a>
-                    <a href="#porque" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">¿Por qué elegirnos?</a>
-                    <a href="#unidades" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Unidades</a>
-                    <a href="#servicios" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Servicios</a>
-                    <a href="#destinos" class="text-gray-800 hover:text-viamed-blue transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Destinos</a>
+                    {menuItems.length > 0 ? (
+                        menuItems.map((item) => (
+                            <a 
+                                href={item.url} 
+                                class="text-gray-800 hover:text-viamed-cyan transition duration-300 font-semibold px-3 text-[15px] py-2 rounded-md hover:bg-gray-100"
+                            >
+                                {item.title}
+                            </a>
+                        ))
+                    ) : (
+                        <>
+                            <a href="/" class="text-gray-800 hover:text-viamed-cyan transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Inicio</a>
+                            <a href="/#nosotros" class="text-gray-800 hover:text-viamed-cyan transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Viamed Peru</a>
+                            <a href="/#servicios" class="text-gray-800 hover:text-viamed-cyan transition duration-300 font-semibold px-3 py-2 rounded-md hover:bg-gray-100">Servicios</a>
+                        </>
+                    )}
                 </div>
-               
-              
             </div>
         </div>
-      
     </nav>
-
