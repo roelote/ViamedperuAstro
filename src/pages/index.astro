@@ -1,6 +1,15 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Importar imágenes de assets
+import renaultMaster from '../assets/renault-master.jpg';
+import toyotaRav4 from '../assets/rav-4.jpg';
+import hyundaiElantra from '../assets/hyundai-elantra.jpg';
+import mercedesCorta from '../assets/mercedes-corta.jpg';
+import toyotaFortuner from '../assets/toyota-fortuner.jpg';
+import hyundaiH1 from '../assets/h1.jpg';
+import nosotros from '../assets/nosotros-viamedperu.webp';
+
 // Obtener datos de la página de inicio desde WordPress
 let homeData: any = null;
 
@@ -86,9 +95,25 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
                         </div>
                     </div>
                 </div>
-                <div data-aos="fade-left">
-                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3" 
-                         alt="Transporte turístico en Perú" class="w-full h-96 object-cover rounded-xl shadow-lg">
+                <!-- aside imagen nosotros -->
+                <div data-aos="fade-left" class="grid grid-cols-2 gap-4">
+                    <!-- Imagen principal grande -->
+                    <div class="col-span-2">
+                        <img src={nosotros.src} 
+                             alt="Transporte turístico en Perú" 
+                             class="w-full h-64 object-cover rounded-xl shadow-lg">
+                    </div>
+                    <!-- Dos imágenes pequeñas debajo -->
+                    <div>
+                        <img src={renaultMaster.src} 
+                             alt="Flota de vehículos Viamedperu" 
+                             class="w-full h-40 object-cover rounded-xl shadow-lg">
+                    </div>
+                    <div>
+                        <img src={toyotaFortuner.src} 
+                             alt="Servicio de transporte turístico" 
+                             class="w-full h-40 object-cover rounded-xl shadow-lg">
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,7 +229,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Renault Master -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="100">
-                    <img src="/src/assets/renault-master.jpg" alt="Renault Master" class="w-full h-48 object-cover">
+                    <img src={renaultMaster.src} alt="Renault Master" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Renault Master</h3>
                         <p class="text-gray-600 mb-4">Minibus espacioso y cómodo</p>
@@ -217,7 +242,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Toyota RAV4 -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="200">
-                    <img src="/src/assets/rav-4.jpg" alt="Toyota RAV4" class="w-full h-48 object-cover">
+                    <img src={toyotaRav4.src} alt="Toyota RAV4" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Toyota RAV4</h3>
                         <p class="text-gray-600 mb-4">SUV confortable y segura</p>
@@ -230,7 +255,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Hyundai Elantra -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="300">
-                    <img src="/src/assets/hyundai-elantra.jpg" alt="Hyundai Elantra" class="w-full h-48 object-cover">
+                    <img src={hyundaiElantra.src} alt="Hyundai Elantra" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Hyundai Elantra</h3>
                         <p class="text-gray-600 mb-4">Sedán elegante y moderno</p>
@@ -243,7 +268,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                  <!-- Mercedes-Benz Sprinter Corta -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="100">
-                    <img src="/src/assets/mercedes-corta.jpg" alt="Mercedes-Benz Sprinter Corta" class="w-full h-48 object-cover">
+                    <img src={mercedesCorta.src} alt="Mercedes-Benz Sprinter Corta" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Mercedes-Benz Sprinter</h3>
                         <p class="text-gray-600 mb-4">Versión corta premium</p>
@@ -256,7 +281,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Toyota Fortuner -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="200">
-                    <img src="/src/assets/toyota-fortuner.jpg" alt="Toyota Fortuner" class="w-full h-48 object-cover">
+                    <img src={toyotaFortuner.src} alt="Toyota Fortuner" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Toyota Fortuner</h3>
                         <p class="text-gray-600 mb-4">SUV robusta y confiable</p>
@@ -269,7 +294,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Hyundai H1 -->
                 <div class="bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="fade-up" data-aos-delay="300">
-                    <img src="/src/assets/h1.jpg" alt="Hyundai H1" class="w-full h-48 object-cover">
+                    <img src={hyundaiH1.src} alt="Hyundai H1" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold text-gray-800 mb-2">Hyundai H1</h3>
                         <p class="text-gray-600 mb-4">Van espaciosa y versátil</p>
@@ -283,7 +308,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
             
             <div class="text-center mt-12" data-aos="fade-up" data-aos-delay="500">
                 <p class="text-lg text-gray-600 mb-6">¿Quieres conocer más detalles sobre nuestras unidades?</p>
-                <a href="/unidades" class="inline-block btn-primary text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-lg">
+                <a href="/nuestras-unidades" class="inline-block btn-primary text-white px-8 py-3 rounded-lg text-lg font-semibold transition-all duration-300 hover:shadow-lg">
                     Ver Detalles de Unidades
                 </a>
             </div>

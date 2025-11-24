@@ -1,4 +1,39 @@
 ---
+// Cargar menú desde WordPress
+interface MenuItem {
+    ID: number;
+    title: string;
+    url: string;
+    menu_order: number;
+    slug?: string;
+}
+
+let menuItems: MenuItem[] = [];
+
+try {
+    const response = await fetch('http://web.viamed/wp-json/vap/v1/menu/menu-1');
+    if (response.ok) {
+        const rawItems = await response.json();
+        // Convertir URLs de WordPress a rutas de Astro
+        menuItems = rawItems.map((item: MenuItem) => {
+            const urlObj = new URL(item.url);
+            const pathname = urlObj.pathname;
+            const slug = pathname.split('/').filter(Boolean).pop() || '';
+            
+            const astroUrl = slug === '' || item.url.includes('web.viamed') && pathname === '/' 
+                ? '/' 
+                : `/${slug}`;
+            
+            return {
+                ...item,
+                url: astroUrl,
+                slug: slug
+            };
+        });
+    }
+} catch (error) {
+    console.error('Error al cargar el menú en footer:', error);
+}
 ---
 
     <!-- Sección Marcas -->
@@ -83,53 +118,44 @@
                     </div>
                 </div>
 
-                <!-- Columna 2: Nuestros Servicios -->
+                <!-- Columna 2: Menú de Navegación -->
                 <div class="text-center lg:text-left">
                     <h4 class="text-2xl font-bold text-white mb-8 relative inline-block">
-                        <span class="relative z-10">Nuestros Servicios</span>
+                        <span class="relative z-10">Navegación</span>
                         <div class="absolute bottom-0 left-0 w-full h-1 bg-linear-to-r from-viamed-cyan to-transparent"></div>
                     </h4>
                     <div class="space-y-4">
-                        <a href="#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
-                            <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium">Transporte Turístico</span>
-                        </a>
-                        <a href="#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
-                            <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium">Servicios Corporativos</span>
-                        </a>
-                        <a href="#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
-                            <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium">Traslados Aeropuerto</span>
-                        </a>
-                        <a href="#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
-                            <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium">Tours Personalizados</span>
-                        </a>
-                        <a href="#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
-                            <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
-                                </svg>
-                            </div>
-                            <span class="font-medium">Servicios Premium</span>
-                        </a>
+                        {menuItems.length > 0 ? (
+                            menuItems.filter((item) => item.url !== '/').map((item) => (
+                                <a href={item.url} class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
+                                    <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium">{item.title}</span>
+                                </a>
+                            ))
+                        ) : (
+                            <>
+                                <a href="/#nosotros" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
+                                    <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium">Nosotros</span>
+                                </a>
+                                <a href="/#servicios" class="flex items-center justify-center lg:justify-start text-gray-300 hover:text-viamed-cyan transition-all duration-300 group">
+                                    <div class="w-8 h-8 bg-gray-700 rounded-lg flex items-center justify-center mr-3 group-hover:bg-viamed-cyan transition duration-300">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                    <span class="font-medium">Servicios</span>
+                                </a>
+                            </>
+                        )}
                     </div>
                 </div>
 
@@ -164,7 +190,7 @@
                             </div>
                             <div class="text-center lg:text-left">
                                 <p class="text-white font-semibold text-base mb-1">Email</p>
-                                <a href="mailto:reserve@viamedperu.com" class="text-white transition duration-300 font-medium text-sm break-words">
+                                <a href="mailto:reserve@viamedperu.com" class="text-white transition duration-300 font-medium text-sm wrap-break-word">
                                     reserve@viamedperu.com
                                 </a>
                             </div>

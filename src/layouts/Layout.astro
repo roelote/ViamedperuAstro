@@ -20,13 +20,27 @@ const {
 	ogImage = '/logo-viamedperu.svg',
 	canonical = Astro.url.href
 } = Astro.props;
+
+// Obtener favicon desde WordPress
+let faviconUrl = '/favicon.svg';
+try {
+	const response = await fetch('http://web.viamed/wp-json');
+	if (response.ok) {
+		const siteInfo = await response.json();
+		if (siteInfo.site_icon_url) {
+			faviconUrl = siteInfo.site_icon_url;
+		}
+	}
+} catch (error) {
+	console.error('Error al cargar favicon de WordPress:', error);
+}
 ---
 <!doctype html>
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/x-icon" href={faviconUrl} />
 		<meta name="generator" content={Astro.generator} />
 		
 		<!-- SEO Meta Tags -->
