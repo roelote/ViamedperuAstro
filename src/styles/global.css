@@ -140,3 +140,127 @@
                 box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
             }
         }
+
+        /* Swiper Custom Styles */
+        .porqueSwiper {
+            padding: 20px 50px 60px;
+        }
+
+        .porqueSwiper .swiper-button-next,
+        .porqueSwiper .swiper-button-prev {
+            color: #0096a3;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .porqueSwiper .swiper-button-next:after,
+        .porqueSwiper .swiper-button-prev:after {
+            font-size: 20px;
+        }
+
+        .porqueSwiper .swiper-button-next:hover,
+        .porqueSwiper .swiper-button-prev:hover {
+            background: #0096a3;
+            color: white;
+        }
+
+        .porqueSwiper .swiper-pagination-bullet {
+            background: #0096a3;
+            width: 12px;
+            height: 12px;
+        }
+
+        .porqueSwiper .swiper-pagination-bullet-active {
+            background: #ec1c24;
+        }
+
+        /* Estilos para listas con iconos de flecha */
+        .advgb-list-arrow-right-alt2 {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advgb-list-arrow-right-alt2 li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .advgb-list-arrow-right-alt2 li::before {
+            content: '\f105';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #0096a3;
+            font-size: 16px;
+        }
+
+        /* Estilos para listas con icono de bandera */
+        .advgb-list-flag {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advgb-list-flag li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .advgb-list-flag li::before {
+            content: '\f024';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #0096a3;
+            font-size: 16px;
+        }
+
+        /* Estilos para listas con icono de check */
+        .advgb-list-yes {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advgb-list-yes li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .advgb-list-yes li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #0096a3;
+            font-size: 16px;
+        }
+
+        /* Estilos para listas saved con icono de check */
+        .advgb-list-saved {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .advgb-list-saved li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+        }
+
+        .advgb-list-saved li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: #0096a3;
+            font-size: 16px;
+        }
