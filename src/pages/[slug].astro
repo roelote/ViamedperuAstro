@@ -1,10 +1,12 @@
 ---
 // src/pages/[slug].astro
+import { getWpApiUrl } from '../config/wordpress';
+
 export async function getStaticPaths() {
     let pages = [];
     
     try {
-        const response = await fetch('http://web.viamed/wp-json/wp/v2/pages?_embed');
+        const response = await fetch(getWpApiUrl('/pages?_embed'));
         if (response.ok) {
             pages = await response.json();
         }

@@ -9,22 +9,10 @@ import mercedesCorta from '../assets/mercedes-corta.jpg';
 import toyotaFortuner from '../assets/toyota-fortuner.jpg';
 import hyundaiH1 from '../assets/h1.jpg';
 import nosotros from '../assets/nosotros-viamedperu.webp';
+import { getPageBySlug } from '../config/wordpress';
 
 // Obtener datos de la página de inicio desde WordPress
-let homeData: any = null;
-
-try {
-    // Buscar la página de inicio en WordPress (puede ser por slug 'home' o 'inicio')
-    const response = await fetch('http://web.viamed/wp-json/wp/v2/pages?slug=inicio');
-    if (response.ok) {
-        const pages = await response.json();
-        if (pages.length > 0) {
-            homeData = pages[0];
-        }
-    }
-} catch (error) {
-    console.error('Error al cargar datos de la página de inicio:', error);
-}
+const homeData = await getPageBySlug('inicio');
 
 // Obtener metadatos de Yoast SEO o usar valores por defecto
 const seoTitle = homeData?.yoast_head_json?.title || 'Viamedperu - Transporte Turístico en Cusco y todo el Perú';
