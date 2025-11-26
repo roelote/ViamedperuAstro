@@ -327,5 +327,76 @@ const canonical = page.yoast_head_json?.canonical || '';
                 }
             } as any);
         }, 100);
+
+        // Manejar formularios Contact Form 7
+        const cf7Forms = document.querySelectorAll('.wpcf7-form');
+        
+        cf7Forms.forEach((form) => {
+            const htmlForm = form as HTMLFormElement;
+            
+            htmlForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const formData = new FormData(htmlForm);
+                const responseOutput = htmlForm.querySelector('.wpcf7-response-output');
+                const submitBtn = htmlForm.querySelector('.wpcf7-submit') as HTMLButtonElement;
+                
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Enviando...';
+                }
+
+                try {
+                    // Obtener el ID del formulario del campo hidden
+                    const formIdInput = htmlForm.querySelector('input[name="_wpcf7"]') as HTMLInputElement;
+                    const formId = formIdInput?.value || '100';
+                    
+                    // Construir la URL de la API de Contact Form 7
+                    const wpApiBase = import.meta.env.PUBLIC_WORDPRESS_API_URL.replace('/wp/v2', '');
+                    const apiUrl = `${wpApiBase}/contact-form-7/v1/contact-forms/${formId}/feedback`;
+                    
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    
+                    if (responseOutput) {
+                        responseOutput.textContent = data.message || 'Mensaje enviado correctamente';
+                        responseOutput.setAttribute('aria-hidden', 'false');
+                        
+                        // Aplicar clase según el estado
+                        if (data.status === 'mail_sent') {
+                            responseOutput.className = 'wpcf7-response-output wpcf7-mail-sent-ok';
+                            htmlForm.reset();
+                        } else if (data.status === 'validation_failed') {
+                            responseOutput.className = 'wpcf7-response-output wpcf7-validation-errors';
+                        } else {
+                            responseOutput.className = 'wpcf7-response-output wpcf7-mail-sent-ng';
+                        }
+
+                        // Ocultar mensaje después de 5 segundos
+                        setTimeout(() => {
+                            responseOutput.setAttribute('aria-hidden', 'true');
+                        }, 5000);
+                    }
+                    
+                } catch (error) {
+                    console.error('Error al enviar formulario:', error);
+                    
+                    if (responseOutput) {
+                        responseOutput.textContent = 'Error al enviar el mensaje. Por favor, intente nuevamente.';
+                        responseOutput.setAttribute('aria-hidden', 'false');
+                        responseOutput.className = 'wpcf7-response-output wpcf7-mail-sent-ng';
+                    }
+                } finally {
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Enviar Mensaje';
+                    }
+                }
+            });
+        });
     });
 </script>
