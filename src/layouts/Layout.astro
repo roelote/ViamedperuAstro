@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { WORDPRESS_API_URL } from '../config/wordpress';
 import '../styles/global.css';
 import 'aos/dist/aos.css';
 import 'swiper/css';
@@ -24,7 +25,8 @@ const {
 // Obtener favicon desde WordPress
 let faviconUrl = '/favicon.svg';
 try {
-	const response = await fetch('http://web.viamed/wp-json');
+	const wpBaseUrl = WORDPRESS_API_URL.replace('/wp-json/wp/v2', '');
+	const response = await fetch(`${wpBaseUrl}/wp-json`);
 	if (response.ok) {
 		const siteInfo = await response.json();
 		if (siteInfo.site_icon_url) {

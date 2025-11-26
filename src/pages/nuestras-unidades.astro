@@ -1,15 +1,11 @@
 ---
 // src/pages/nuestras-unidades.astro
+import { getPageBySlug } from '../config/wordpress';
+
 let pageData: any = null;
 
 try {
-    const response = await fetch('http://web.viamed/wp-json/wp/v2/pages?slug=nuestras-unidades');
-    if (response.ok) {
-        const pages = await response.json();
-        if (pages.length > 0) {
-            pageData = pages[0];
-        }
-    }
+    pageData = await getPageBySlug('nuestras-unidades');
 } catch (error) {
     console.error('Error al cargar la página:', error);
 }

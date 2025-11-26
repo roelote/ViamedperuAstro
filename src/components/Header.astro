@@ -1,5 +1,7 @@
 ---
 // src/components/Header.astro
+import { WORDPRESS_API_URL } from '../config/wordpress';
+
 interface MenuItem {
     ID: number;
     title: string;
@@ -9,9 +11,10 @@ interface MenuItem {
 }
 
 let menuItems: MenuItem[] = [];
+const wpBaseUrl = WORDPRESS_API_URL.replace('/wp-json/wp/v2', '');
 
 try {
-    const response = await fetch('http://web.viamed/wp-json/vap/v1/menu/menu-1');
+    const response = await fetch(`${wpBaseUrl}/wp-json/vap/v1/menu/menu-1`);
     if (response.ok) {
         const rawItems = await response.json();
         // Convertir URLs de WordPress a rutas de Astro
@@ -22,7 +25,7 @@ try {
             const slug = pathname.split('/').filter(Boolean).pop() || '';
             
             // Si es la home, usar "/"
-            const astroUrl = slug === '' || item.url.includes('web.viamed') && pathname === '/' 
+            const astroUrl = slug === '' || pathname === '/' 
                 ? '/' 
                 : `/${slug}`;
             
