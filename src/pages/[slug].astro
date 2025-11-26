@@ -337,7 +337,6 @@ const canonical = page.yoast_head_json?.canonical || '';
             htmlForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 
-                const formData = new FormData(htmlForm);
                 const responseOutput = htmlForm.querySelector('.wpcf7-response-output');
                 const submitBtn = htmlForm.querySelector('.wpcf7-submit') as HTMLButtonElement;
                 
@@ -347,20 +346,43 @@ const canonical = page.yoast_head_json?.canonical || '';
                 }
 
                 try {
-                    // Obtener el ID del formulario del campo hidden
+                    // Obtener el ID del formulario (puede ser del campo hidden _wpcf7 o del atributo id del form)
                     const formIdInput = htmlForm.querySelector('input[name="_wpcf7"]') as HTMLInputElement;
-                    const formId = formIdInput?.value || '100';
+                    let formId = formIdInput?.value;
+                    
+                    // Si no hay campo _wpcf7, buscar en el atributo id del form
+                    if (!formId) {
+                        const formIdMatch = htmlForm.id.match(/wpcf7-f(\w+)-/);
+                        formId = formIdMatch ? formIdMatch[1] : '';
+                    }
+                    
+                    if (!formId) {
+                        throw new Error('No se pudo obtener el ID del formulario');
+                    }
+                    
+                    console.log('ID del formulario:', formId);
                     
                     // Construir la URL de la API de Contact Form 7
                     const wpApiBase = import.meta.env.PUBLIC_WORDPRESS_API_URL.replace('/wp/v2', '');
                     const apiUrl = `${wpApiBase}/contact-form-7/v1/contact-forms/${formId}/feedback`;
                     
+                    console.log('URL del API:', apiUrl);
+                    
+                    // Crear FormData con todos los campos del formulario
+                    const formData = new FormData(htmlForm);
+                    
                     const response = await fetch(apiUrl, {
                         method: 'POST',
-                        body: formData
+                        headers: {
+                            'Accept': 'application/json',
+                        },
+                        body: formData,
+                        credentials: 'omit'
                     });
 
                     const data = await response.json();
+                    
+                    console.log('Respuesta del servidor:', data);
                     
                     if (responseOutput) {
                         responseOutput.textContent = data.message || 'Mensaje enviado correctamente';
@@ -372,6 +394,20 @@ const canonical = page.yoast_head_json?.canonical || '';
                             htmlForm.reset();
                         } else if (data.status === 'validation_failed') {
                             responseOutput.className = 'wpcf7-response-output wpcf7-validation-errors';
+                            
+                            // Mostrar errores específicos de validación
+                            if (data.invalid_fields) {
+                                data.invalid_fields.forEach((field: any) => {
+                                    const input = htmlForm.querySelector(`[name="${field.field}"]`);
+                                    if (input) {
+                                        input.classList.add('wpcf7-not-valid');
+                                        const errorSpan = document.createElement('span');
+                                        errorSpan.className = 'wpcf7-not-valid-tip';
+                                        errorSpan.textContent = field.message;
+                                        input.parentElement?.appendChild(errorSpan);
+                                    }
+                                });
+                            }
                         } else {
                             responseOutput.className = 'wpcf7-response-output wpcf7-mail-sent-ng';
                         }
@@ -379,6 +415,9 @@ const canonical = page.yoast_head_json?.canonical || '';
                         // Ocultar mensaje después de 5 segundos
                         setTimeout(() => {
                             responseOutput.setAttribute('aria-hidden', 'true');
+                            // Limpiar errores de validación
+                            htmlForm.querySelectorAll('.wpcf7-not-valid-tip').forEach(el => el.remove());
+                            htmlForm.querySelectorAll('.wpcf7-not-valid').forEach(el => el.classList.remove('wpcf7-not-valid'));
                         }, 5000);
                     }
                     
