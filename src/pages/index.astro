@@ -117,7 +117,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
     </section>
 
     <!-- Section 3: ¿Por qué elegirnos? -->
-    <section id="porque" class="py-20 bg-white">
+    <section id="porque" class="py-20 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-4">
             <div class="text-center mb-16" data-aos="fade-up">
                 <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">¿Por qué elegirnos?</h2>
@@ -128,7 +128,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
             </div>
             
             <!-- Swiper Carousel -->
-            <div class="swiper porqueSwiper" data-aos="fade-up">
+            <div class="swiper porqueSwiper overflow-hidden" data-aos="fade-up">
                 <div class="swiper-wrapper">
                     <div class="swiper-slide">
                         <div class="text-center p-8 bg-gray-50 rounded-xl card-hover h-full">
@@ -403,7 +403,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Cusco -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="100">
-                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-4.0.3" alt="Cusco" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={limafoto.src} alt="Cusco" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Cusco</h3>
@@ -429,7 +429,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Puno -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="300">
-                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-4.0.3" alt="Puno" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={limafoto.src} alt="Puno" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Puno</h3>
@@ -442,7 +442,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Arequipa -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="400">
-                    <img src="https://images.unsplash.com/photo-1587595431973-160d0d94add1?ixlib=rb-4.0.3" alt="Arequipa" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={limafoto.src} alt="Arequipa" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Arequipa</h3>
