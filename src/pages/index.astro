@@ -28,10 +28,18 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
     ogImage={ogImage}
     canonical={canonical}
 >
-	<section id="inicio" class="relative h-screen hero-video flex items-center justify-center">
-        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover z-0">
+	<section id="inicio" class="relative h-[600px] md:h-screen hero-video flex items-center justify-center">
+        <!-- Video para desktop -->
+        <video autoplay muted loop playsinline class="hidden md:block absolute inset-0 w-full h-full object-cover z-0">
             <source src="/video-home.mp4" type="video/mp4">
         </video>
+        <!-- Imagen para móvil -->
+        <img 
+            src="/hader-pages-viamed.jpg" 
+            alt="Viamedperu Transporte Turístico"
+            class="md:hidden absolute inset-0 w-full h-full object-cover object-center z-0"
+        />
+        <div class="absolute inset-0 bg-black/40 z-0"></div>
         <div class="hero-content text-center text-white px-4 z-10 relative">
             <h1 class="text-5xl md:text-7xl font-bold mb-6" data-aos="fade-up">
                 VIAMEDPERU
