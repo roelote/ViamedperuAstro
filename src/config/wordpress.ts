@@ -1,5 +1,5 @@
 // Configuración de WordPress API
-export const WORDPRESS_API_URL = import.meta.env.WORDPRESS_API_URL || 'http://web.viamed/wp-json/wp/v2';
+export const WORDPRESS_API_URL = import.meta.env.PUBLIC_WORDPRESS_API_URL || 'http://web.viamed/wp-json/wp/v2';
 export const PUBLIC_SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321';
 
 // Helper para construir URLs de la API
