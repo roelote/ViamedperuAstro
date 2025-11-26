@@ -2,6 +2,9 @@
 export const WORDPRESS_API_URL = import.meta.env.PUBLIC_WORDPRESS_API_URL || 'http://web.viamed/wp-json/wp/v2';
 export const PUBLIC_SITE_URL = import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321';
 
+// Log para verificar en build (remover después)
+console.log('🔧 WordPress API URL:', WORDPRESS_API_URL);
+
 // Helper para construir URLs de la API
 export const getWpApiUrl = (endpoint: string) => {
     return `${WORDPRESS_API_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
