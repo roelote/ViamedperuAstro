@@ -9,7 +9,13 @@ import mercedesCorta from '../assets/mercedes-corta.jpg';
 import toyotaFortuner from '../assets/toyota-fortuner.jpg';
 import hyundaiH1 from '../assets/h1.jpg';
 import nosotros from '../assets/nosotros-viamedperu.webp';
-import limafoto from '../assets/lima-plaza.jpg';
+import limafoto from '../assets/plaza-lima-wt.webp';
+import cuscofoto from '../assets/Machupicchu-full-day.webp';
+import punofoto from '../assets/puno-wt.webp';
+import arequipafoto from '../assets/plaza-arequipa-wt.webp';
+
+
+
 import { getPageBySlug } from '../config/wordpress';
 
 // Obtener datos de la página de inicio desde WordPress
@@ -403,7 +409,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Cusco -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="100">
-                    <img src={limafoto.src} alt="Cusco" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={cuscofoto.src} alt="Cusco" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Cusco</h3>
@@ -429,7 +435,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Puno -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="300">
-                    <img src={limafoto.src} alt="Puno" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={punofoto.src} alt="Puno" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Puno</h3>
@@ -442,7 +448,7 @@ const canonical = homeData?.yoast_head_json?.canonical || '';
 
                 <!-- Arequipa -->
                 <div class="relative group overflow-hidden rounded-xl shadow-lg card-hover" data-aos="fade-up" data-aos-delay="400">
-                    <img src={limafoto.src} alt="Arequipa" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
+                    <img src={arequipafoto.src} alt="Arequipa" class="w-full h-64 object-cover group-hover:scale-110 transition duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                     <div class="absolute bottom-4 left-4 text-white">
                         <h3 class="text-2xl font-bold mb-2">Arequipa</h3>
