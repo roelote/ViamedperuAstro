@@ -2,6 +2,9 @@
 // Cargar menú desde WordPress
 import { WORDPRESS_API_URL } from '../config/wordpress';
 
+
+const year = new Date().getFullYear();
+
 interface MenuItem {
     ID: number;
     title: string;
@@ -225,8 +228,8 @@ try {
                     <!-- Copyright -->
                     <div class="text-center lg:text-left">
                         <p class="text-gray-400 text-base font-medium">
-                            &copy; 2025 Viamedperu - INVERSIONES CM TOUR OPERATOR E.I.R.L.
-                        </p>
+                            &copy; {year} Viamedperu - INVERSIONES CM TOUR OPERATOR E.I.R.L.
+                            </p>
                         <p class="text-gray-500 text-sm mt-1">
                             Todos los derechos reservados.
                         </p>
